@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Roboto Condensed Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Oswald Variable', 'Roboto Condensed Variable', sans-serif;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background:
+    radial-gradient(1200px 600px at 50% -200px, rgba(56, 189, 248, 0.08), transparent 70%),
+    radial-gradient(900px 500px at 100% 100%, rgba(168, 85, 247, 0.06), transparent 70%),
+    #09090b;
+  color: #e4e4e7;
+  font-family: var(--font-sans);
+}
+
+/* Неоновое свечение номеров */
+@keyframes glow-epic {
+  0%, 100% { box-shadow: 0 0 22px rgba(192, 132, 252, 0.7), 0 0 50px rgba(168, 85, 247, 0.35); }
+  50% { box-shadow: 0 0 34px rgba(216, 180, 254, 0.95), 0 0 80px rgba(168, 85, 247, 0.55); }
+}
+@keyframes glow-legendary {
+  0% { box-shadow: 0 0 26px rgba(251, 191, 36, 0.9), 0 0 60px rgba(239, 68, 68, 0.45); }
+  50% { box-shadow: 0 0 40px rgba(253, 224, 71, 1), 0 0 100px rgba(249, 115, 22, 0.65); }
+  100% { box-shadow: 0 0 26px rgba(251, 191, 36, 0.9), 0 0 60px rgba(239, 68, 68, 0.45); }
+}
+.plate-glow-epic { animation: glow-epic 2.2s ease-in-out infinite; }
+.plate-glow-legendary { animation: glow-legendary 1.6s ease-in-out infinite; }
+
+/* Стробоскопы рамки ФСО */
+@keyframes strobe { 0%, 45% { opacity: 1; } 50%, 100% { opacity: 0.12; } }
+.strobe-blue { animation: strobe 0.7s steps(1) infinite; }
+.strobe-red { animation: strobe 0.7s steps(1) infinite 0.35s; }
+
+/* Появление результата */
+@keyframes pop-in {
+  0% { transform: scale(0.92); opacity: 0; }
+  60% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.animate-pop { animation: pop-in 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+
+@keyframes slide-up {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.animate-slide-up { animation: slide-up 0.3s ease-out both; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-3px); }
+  40% { transform: translateX(3px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+}
+.animate-shake { animation: shake 0.3s ease-in-out; }
+
+@keyframes plate-jiggle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}
+.plate-spinning { animation: plate-jiggle 0.08s linear infinite; }
+
+/* Переливающийся текст для легендарок */
+@keyframes shimmer { to { background-position: 200% center; } }
+.text-shimmer {
+  background: linear-gradient(90deg, #fbbf24, #fde68a, #f97316, #ef4444, #fbbf24);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* Всплывающая сумма */
+@keyframes float-up {
+  0% { transform: translate(-50%, 0); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translate(-50%, -48px); opacity: 0; }
+}
+.animate-float-up { animation: float-up 1.2s ease-out forwards; }
+
+/* Тонкие скроллбары */
+* { scrollbar-width: thin; scrollbar-color: #3f3f46 transparent; }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+input[type='range'] { accent-color: #38bdf8; }
+
+@media (prefers-reduced-motion: reduce) {
+  .plate-glow-epic, .plate-glow-legendary, .plate-spinning, .text-shimmer, .strobe-blue, .strobe-red { animation: none; }
+}
