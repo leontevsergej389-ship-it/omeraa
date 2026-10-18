@@ -34,5 +34,8 @@
   },
   "allowScripts": {
     "better-sqlite3": false
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

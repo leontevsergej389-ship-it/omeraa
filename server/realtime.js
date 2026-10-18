@@ -2,6 +2,7 @@
 import { Server } from 'socket.io';
 import { TIER_RANK } from '../src/data/platesConfig.js';
 import { publicUser, verifyToken } from './auth.js';
+import { config } from './config.js';
 import { users } from './db.js';
 import { applyClientAction, mutateGame, openSession } from './game.js';
 
@@ -13,7 +14,11 @@ const ACCRUE_INTERVAL_MS = 60_000;
 const MAX_ACTIONS_PER_SEC = 40;
 
 export function createRealtime(httpServer) {
-  const io = new Server(httpServer, { serveClient: false });
+  const io = new Server(httpServer, {
+    serveClient: false,
+    // Фронтенд на другом домене (например, Vercel) подключается к сокету напрямую.
+    cors: config.corsOrigins.length ? { origin: config.corsOrigins.includes('*') ? '*' : config.corsOrigins } : undefined,
+  });
   const online = new Map(); // userId → число открытых вкладок
   const drops = [];
 

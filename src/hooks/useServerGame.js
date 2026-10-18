@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
+import { API_URL } from '../api/http.js';
 import { gameReducer } from '../state/gameState.js';
 
 const ACTION_TIMEOUT_MS = 10_000;
@@ -41,7 +42,7 @@ export function useServerGame(token, onEvent) {
 
   useEffect(() => {
     if (!token) return undefined;
-    const socket = io({ auth: { token } });
+    const socket = API_URL ? io(API_URL, { auth: { token } }) : io({ auth: { token } });
     socketRef.current = socket;
     const emit = (type, payload) => onEventRef.current?.(type, payload);
 

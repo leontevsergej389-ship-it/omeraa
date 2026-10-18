@@ -19,6 +19,13 @@ function loadJwtSecret() {
   return secret;
 }
 
+/** TRUST_PROXY: «1» — один прокси хостинга перед сервером, «true» — доверять всем, пусто — без прокси. */
+function parseTrustProxy(value) {
+  if (!value) return false;
+  if (value === 'true') return true;
+  return /^\d+$/.test(value) ? Number(value) : value;
+}
+
 export const config = {
   port: Number(process.env.PORT) || 3001,
   dbFile: path.join(dataDir, 'namerki.db'),
@@ -32,4 +39,10 @@ export const config = {
     .filter(Boolean),
   /** Код для промокода «/makeadmin <код>». Пустая строка отключает промокод. */
   adminPromo: (process.env.ADMIN_PROMO ?? '7777').trim().toLowerCase(),
+  /** Домены фронтенда, которым разрешено ходить в API с другого адреса (через запятую, «*» — любым). */
+  corsOrigins: (process.env.CORS_ORIGINS ?? '')
+    .split(',')
+    .map((s) => s.trim().replace(/\/+$/, ''))
+    .filter(Boolean),
+  trustProxy: parseTrustProxy(process.env.TRUST_PROXY),
 };
